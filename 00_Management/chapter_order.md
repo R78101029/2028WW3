@@ -81,6 +81,13 @@
 | `Chap_01_Interlude_I_Silence_From_Above.md` | 從天而降的寂靜 | 精簡 | 減少技術密度 |
 | `Chap_05_Interlude_Pentagon_Vacuum.md` | 五角大廈的真空 | 擴寫 | 阿德勒人性化 |
 
+### 第三次修訂（敵方人性化）
+| 檔案 | 標題 | 字數 | 目的 |
+|------|------|------|------|
+| `Chap_16-B_Asia_The_Teacher.md` | 老師 | ~4500字 | 中國戰略指揮官人性化 |
+| `Chap_12-B_Europe_The_Other_Side.md` | 另一邊 | ~4000字 | 俄軍士兵人性化 |
+| `Chap_24-B_Global_The_Witness.md` | 見證者 | ~4500字 | 潔西卡全程視角串聯 |
+
 ### 先前修訂（參考）
 | 檔案 | 標題 | 變化 |
 |------|------|------|
