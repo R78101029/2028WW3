@@ -1,0 +1,16 @@
+# Disable GitHub Pages default Jekyll build
+# This repo uses Cloudflare Pages for deployment
+
+name: GitHub Pages (Disabled)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  skip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip GitHub Pages
+        run: echo "GitHub Pages is disabled. This site is deployed via Cloudflare Pages."
