@@ -150,6 +150,12 @@ async function main() {
   const chapterFiles = (await readdir(chaptersDir))
     .filter(f => f.endsWith('.md'));
 
+  // Optional: Filter by specific chapter if provided
+  const targetChapter = process.argv[3];
+  if (targetChapter) {
+    console.log(`Targeting specific chapter: ${targetChapter}`);
+  }
+
   console.log(`Found ${imageFiles.length} images, ${chapterFiles.length} chapters`);
   console.log('');
 
@@ -171,7 +177,41 @@ async function main() {
   // Process each chapter
   let updatedCount = 0;
   for (const [chapterNum, images] of imagesByChapter) {
-    const chapterFile = findChapterFile(chapterFiles, chapterNum);
+    // If target provided, skip unless this chapter matches the target
+    // Note: This relies on the image matching the chapter number.
+    // If we want to force-match the file, we need to ensure the image IS for this file.
+    
+    let chapterFile = findChapterFile(chapterFiles, chapterNum);
+    
+    // If specific target is requested, override the lookup
+    if (targetChapter) {
+        // Only process if the found file matches ONLY, or if the user wants to strictly link ANY ch{N} image to THIS file?
+        // Better logic: If targetChapter is set, we ONLY process that file.
+        // And we need to find which 'chapterNum' that file corresponds to, OR just assume the images are correctly named for it.
+        // But the images are grouped by 'chapterNum' derived from filename 'ch{N}'.
+        
+        // Let's invert: If we found a file for this chapterNum, check if it matches target.
+        if (chapterFile !== targetChapter) {
+            // Check if existing lookup found the WRONG file for this number
+            // e.g. looked for 01, found 01-B, but target is 01_Interlude.
+            
+            // Try to force-match the target file to see if it acts as chapterNum
+            // This is tricky because the image says "ch01". The file says "Chap_01...".
+            // If we are processing images for ch01, and target is Chap_01_Interlude...
+            // we should perform the update on Chap_01_Interlude instead of what findChapterFile returns.
+            
+            // Is targetString containing chapterNum?
+            const targetNumMatch = targetChapter.match(/(?:Chap|chapter)_?0*(\d+)/i) || targetChapter.match(/^0*(\d+)/);
+            const targetNum = targetNumMatch ? parseInt(targetNumMatch[1], 10) : -1;
+            
+            if (targetNum === chapterNum) {
+                chapterFile = targetChapter; // Force it
+            } else {
+                continue; // This image group belongs to a different chapter number
+            }
+        }
+    }
+    
     if (!chapterFile) {
       console.log(`⚠ No chapter file found for ch${String(chapterNum).padStart(2, '0')}`);
       continue;
