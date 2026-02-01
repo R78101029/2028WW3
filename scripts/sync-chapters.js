@@ -41,20 +41,50 @@ function parseFrontmatter(content) {
   return { frontmatter: null, body: content };
 }
 
-// Generate frontmatter for chapter
+// Parse existing YAML frontmatter into object
+function parseYamlFrontmatter(frontmatterStr) {
+  if (!frontmatterStr) return {};
+  const obj = {};
+  frontmatterStr.split('\n').forEach(line => {
+    const colonIdx = line.indexOf(':');
+    if (colonIdx > 0) {
+      const key = line.substring(0, colonIdx).trim();
+      const value = line.substring(colonIdx + 1).trim().replace(/^["']|["']$/g, '');
+      obj[key] = value;
+    }
+  });
+  return obj;
+}
+
+// Generate frontmatter for chapter, preserving existing fields
 function generateFrontmatter(filename, existingFrontmatter) {
+  const existing = parseYamlFrontmatter(existingFrontmatter);
   const order = getChapterOrder(filename);
 
-  // Extract title from filename
+  // Extract title from filename (use existing if available)
   const titleMatch = filename.match(/Chap_\d+(?:-[A-Z])?_[^_]+_(.+)\.md$/);
-  const title = titleMatch
+  const defaultTitle = titleMatch
     ? titleMatch[1].replace(/_/g, ' ')
     : filename.replace('.md', '');
 
-  return `---
-title: "${title}"
-order: ${order}
----`;
+  // Build frontmatter, preserving cover fields
+  const fields = {
+    title: existing.title || defaultTitle,
+    order: order,
+  };
+
+  // Preserve cover fields if they exist
+  if (existing.cover) fields.cover = existing.cover;
+  if (existing.cover_url) fields.cover_url = existing.cover_url;
+  if (existing.cover_media_id) fields.cover_media_id = existing.cover_media_id;
+
+  // Build YAML string
+  const lines = Object.entries(fields).map(([key, value]) => {
+    if (typeof value === 'number') return `${key}: ${value}`;
+    return `${key}: "${value}"`;
+  });
+
+  return `---\n${lines.join('\n')}\n---`;
 }
 
 async function syncNovel(novelName) {

@@ -260,31 +260,39 @@ function resolveCoverPath(chapterFile, coverValue, novelSlug) {
 }
 
 /**
- * Extract actual filename from URL (handles CDN URLs like i0.wp.com)
+ * Extract path info from URL (handles CDN URLs like i0.wp.com)
+ * Returns { filename, datePath } for matching
  */
-function extractFilename(url) {
+function extractUrlInfo(url) {
   // Remove query string
   const cleanUrl = url.split('?')[0];
 
-  // Handle Jetpack CDN URLs: https://i0.wp.com/blog.example.com/wp-content/uploads/...
-  const cdnMatch = cleanUrl.match(/i\d\.wp\.com\/[^/]+\/wp-content\/uploads\/.*\/([^/]+)$/);
-  if (cdnMatch) return cdnMatch[1];
+  // Handle Jetpack CDN URLs: https://i0.wp.com/blog.example.com/wp-content/uploads/2025/12/image.png
+  const cdnMatch = cleanUrl.match(/i\d\.wp\.com\/[^/]+\/wp-content\/uploads\/(\d{4}\/\d{2})\/([^/]+)$/);
+  if (cdnMatch) {
+    return { datePath: cdnMatch[1], filename: cdnMatch[2] };
+  }
 
-  // Regular URL
-  return basename(cleanUrl);
+  // Regular WordPress URL: /wp-content/uploads/2025/12/image.png
+  const wpMatch = cleanUrl.match(/wp-content\/uploads\/(\d{4}\/\d{2})\/([^/]+)$/);
+  if (wpMatch) {
+    return { datePath: wpMatch[1], filename: wpMatch[2] };
+  }
+
+  // Fallback: just filename
+  return { datePath: null, filename: basename(cleanUrl) };
 }
 
 /**
  * Find WordPress media by URL
  */
 async function findMediaByUrl(url) {
-  // Extract filename from URL (handles CDN URLs)
-  const filename = extractFilename(url);
+  const { datePath, filename } = extractUrlInfo(url);
   const searchName = filename.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '-');
 
-  console.log(`    Searching for: ${filename}`);
+  console.log(`    Searching for: ${filename} (path: ${datePath || 'any'})`);
 
-  const endpoint = `${WP_URL}/wp-json/wp/v2/media?search=${encodeURIComponent(searchName)}`;
+  const endpoint = `${WP_URL}/wp-json/wp/v2/media?search=${encodeURIComponent(searchName)}&per_page=50`;
 
   const response = await fetch(endpoint, {
     headers: { 'Authorization': getAuthHeader() },
@@ -293,8 +301,22 @@ async function findMediaByUrl(url) {
   if (!response.ok) return null;
 
   const media = await response.json();
-  // Find match by source_url containing the filename
-  const match = media.find(m => m.source_url && m.source_url.includes(filename));
+
+  // Find match by source_url - prefer exact date path match
+  let match = null;
+  if (datePath) {
+    // First try exact match with date path
+    match = media.find(m => m.source_url && m.source_url.includes(`/${datePath}/${filename}`));
+  }
+  if (!match) {
+    // Fallback to filename only
+    match = media.find(m => m.source_url && m.source_url.endsWith(`/${filename}`));
+  }
+
+  if (match) {
+    console.log(`    Found: ID ${match.id} - ${match.source_url}`);
+  }
+
   return match ? match.id : null;
 }
 
@@ -425,18 +447,19 @@ async function main() {
       // Convert inline images to use Novels365 URLs
       const bodyWithUrls = convertInlineImages(body, novelSlug);
 
-      // Create WordPress post content
+      // Convert markdown to HTML for full content
+      const fullContentHtml = markdownToHtml(bodyWithUrls);
+
+      // Create WordPress post content (full content + link back)
       const wpTitle = `【${novel.title}】${chapterTitle}`;
       const excerpt = createExcerpt(body);
 
       const wpContent = `
-<p>${excerpt}</p>
-
-<p><a href="${chapterUrl}" target="_blank" rel="noopener"><strong>👉 點此繼續閱讀完整章節</strong></a></p>
+${fullContentHtml}
 
 <hr>
 
-<p><em>本章節來自《${novel.title}》，更多精彩內容請前往 <a href="${NOVEL_SITE_URL}" target="_blank">Novels365</a> 閱讀。</em></p>
+<p><em>本章節來自《${novel.title}》，前往 <a href="${chapterUrl}" target="_blank">Novels365</a> 閱讀更多章節。</em></p>
       `.trim();
 
       const result = await postToWordPress(wpTitle, wpContent, excerpt, wpSlug, featuredMediaId);
