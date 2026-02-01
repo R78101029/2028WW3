@@ -260,12 +260,29 @@ function resolveCoverPath(chapterFile, coverValue, novelSlug) {
 }
 
 /**
+ * Extract actual filename from URL (handles CDN URLs like i0.wp.com)
+ */
+function extractFilename(url) {
+  // Remove query string
+  const cleanUrl = url.split('?')[0];
+
+  // Handle Jetpack CDN URLs: https://i0.wp.com/blog.example.com/wp-content/uploads/...
+  const cdnMatch = cleanUrl.match(/i\d\.wp\.com\/[^/]+\/wp-content\/uploads\/.*\/([^/]+)$/);
+  if (cdnMatch) return cdnMatch[1];
+
+  // Regular URL
+  return basename(cleanUrl);
+}
+
+/**
  * Find WordPress media by URL
  */
 async function findMediaByUrl(url) {
-  // Extract filename from URL
-  const filename = basename(url).split('?')[0];
+  // Extract filename from URL (handles CDN URLs)
+  const filename = extractFilename(url);
   const searchName = filename.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '-');
+
+  console.log(`    Searching for: ${filename}`);
 
   const endpoint = `${WP_URL}/wp-json/wp/v2/media?search=${encodeURIComponent(searchName)}`;
 
@@ -276,7 +293,7 @@ async function findMediaByUrl(url) {
   if (!response.ok) return null;
 
   const media = await response.json();
-  // Find match by source_url
+  // Find match by source_url containing the filename
   const match = media.find(m => m.source_url && m.source_url.includes(filename));
   return match ? match.id : null;
 }
