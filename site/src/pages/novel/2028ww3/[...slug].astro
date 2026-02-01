@@ -1,0 +1,45 @@
+---
+import ChapterLayout from '../../../layouts/ChapterLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allChapters = await getCollection('novels');
+  const chapters = allChapters
+    .filter(c => c.id.startsWith('2028ww3/'))
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+  return chapters.map((chapter, index) => {
+    const slug = chapter.id.replace('2028ww3/', '').replace('.md', '');
+    const prevChapter = index > 0 ? chapters[index - 1] : null;
+    const nextChapter = index < chapters.length - 1 ? chapters[index + 1] : null;
+
+    return {
+      params: { slug },
+      props: {
+        chapter,
+        prevChapter: prevChapter ? {
+          slug: prevChapter.id.replace('2028ww3/', '').replace('.md', ''),
+          title: prevChapter.data.title,
+        } : null,
+        nextChapter: nextChapter ? {
+          slug: nextChapter.id.replace('2028ww3/', '').replace('.md', ''),
+          title: nextChapter.data.title,
+        } : null,
+      },
+    };
+  });
+}
+
+const { chapter, prevChapter, nextChapter } = Astro.props;
+const { Content } = await render(chapter);
+---
+
+<ChapterLayout
+  title={chapter.data.title}
+  novelTitle="2028 第三次世界大戰"
+  novelSlug="2028ww3"
+  prevChapter={prevChapter}
+  nextChapter={nextChapter}
+>
+  <Content />
+</ChapterLayout>

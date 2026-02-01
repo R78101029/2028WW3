@@ -1,0 +1,53 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  novelTitle: string;
+  novelSlug: string;
+  chapterNumber?: string;
+  prevChapter?: { slug: string; title: string } | null;
+  nextChapter?: { slug: string; title: string } | null;
+}
+
+const {
+  title,
+  novelTitle,
+  novelSlug,
+  chapterNumber,
+  prevChapter,
+  nextChapter
+} = Astro.props;
+---
+
+<BaseLayout title={`${title} - ${novelTitle}`}>
+  <article class="container">
+    <header class="chapter-header">
+      <p class="meta">
+        <a href={`/novel/${novelSlug}`}>{novelTitle}</a>
+      </p>
+      {chapterNumber && <span class="chapter-number">{chapterNumber}</span>}
+      <h1>{title}</h1>
+    </header>
+
+    <div class="chapter-content">
+      <slot />
+    </div>
+
+    <nav class="chapter-nav">
+      {prevChapter ? (
+        <a href={`/novel/${novelSlug}/${prevChapter.slug}`}>
+          <span>←</span>
+          <span>{prevChapter.title}</span>
+        </a>
+      ) : <span></span>}
+
+      {nextChapter ? (
+        <a href={`/novel/${novelSlug}/${nextChapter.slug}`}>
+          <span>{nextChapter.title}</span>
+          <span>→</span>
+        </a>
+      ) : <span></span>}
+    </nav>
+  </article>
+</BaseLayout>

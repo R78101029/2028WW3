@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Novel data (can be moved to a data file later)
+const novels = [
+  {
+    slug: '2028ww3',
+    title: '2028 第三次世界大戰',
+    description: '當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。這是一部湯姆克蘭西式軍事驚悚小說，描述專業人士在極限壓力下的求生與決斷。',
+    status: '連載中',
+    chapters: 35,
+    tags: ['軍事', '驚悚', '科幻'],
+  },
+];
+---
+
+<BaseLayout title="Novel Platform - 小說發布平台">
+  <div class="container">
+    <section class="hero">
+      <h1>小說平台</h1>
+      <p class="subtitle">原創小說發布空間</p>
+    </section>
+
+    <section class="novel-grid">
+      {novels.map((novel) => (
+        <a href={`/novel/${novel.slug}`} class="novel-card">
+          <h2>{novel.title}</h2>
+          <p class="meta">
+            <span class="status">{novel.status}</span>
+            <span class="chapters">{novel.chapters} 章</span>
+          </p>
+          <p class="description">{novel.description}</p>
+          <div class="tags">
+            {novel.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+  }
+
+  .status {
+    background: var(--color-accent);
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+  }
+
+  .chapters {
+    color: var(--color-text-muted);
+  }
+</style>
