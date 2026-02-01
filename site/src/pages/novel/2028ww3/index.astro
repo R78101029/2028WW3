@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const novelInfo = {
+  title: '2028 第三次世界大戰',
+  slug: '2028ww3',
+  description: '當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。這是一部湯姆克蘭西式軍事驚悚小說，描述專業人士在極限壓力下的求生與決斷。',
+  author: '作者',
+  status: '連載中',
+};
+
+// Get all chapters for this novel
+const allChapters = await getCollection('novels');
+const chapters = allChapters
+  .filter(c => c.id.startsWith('2028ww3/'))
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+// Group chapters by part
+const parts = [
+  { title: '第一部：被致盲的巨獸', range: [0, 79] },
+  { title: '第二部：虛空的盾牌', range: [80, 159] },
+  { title: '第三部：漫長的黑夜', range: [160, 239] },
+  { title: '第四部：鋼鐵的黎明', range: [240, 999] },
+];
+
+function getChapterSlug(id: string) {
+  return id.replace('2028ww3/', '').replace('.md', '');
+}
+---
+
+<BaseLayout title={`${novelInfo.title} - 目錄`}>
+  <div class="container">
+    <header class="novel-header">
+      <h1>{novelInfo.title}</h1>
+      <p class="meta">{novelInfo.author} · {novelInfo.status} · {chapters.length} 章</p>
+      <p class="description">{novelInfo.description}</p>
+    </header>
+
+    <nav class="toc">
+      {parts.map((part) => {
+        const partChapters = chapters.filter(
+          c => c.data.order >= part.range[0] && c.data.order < part.range[1]
+        );
+        if (partChapters.length === 0) return null;
+
+        return (
+          <section class="part">
+            <h2>{part.title}</h2>
+            <ul class="chapter-list">
+              {partChapters.map((chapter) => (
+                <li>
+                  <a href={`/novel/2028ww3/${getChapterSlug(chapter.id)}`}>
+                    <span class="chapter-title">{chapter.data.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
+    </nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .novel-header {
+    text-align: center;
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2rem;
+  }
+
+  .novel-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .novel-header .meta {
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .novel-header .description {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--color-text-muted);
+  }
+
+  .toc {
+    margin-top: 2rem;
+  }
+
+  .part {
+    margin-bottom: 3rem;
+  }
+
+  .part h2 {
+    font-size: 1.25rem;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+</style>

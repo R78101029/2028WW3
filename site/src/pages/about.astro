@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="關於 - Novel Platform">
+  <div class="container">
+    <h1>關於本站</h1>
+
+    <p>
+      這是一個原創小說發布平台，使用現代網頁技術建構，
+      提供良好的閱讀體驗。
+    </p>
+
+    <h2>技術架構</h2>
+    <ul>
+      <li>靜態網站生成：Astro</li>
+      <li>部署平台：Cloudflare Pages</li>
+      <li>版本控制：GitHub</li>
+    </ul>
+
+    <h2>聯繫方式</h2>
+    <p>
+      如有任何問題或建議，歡迎透過 GitHub Issues 聯繫。
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin-top: 2rem;
+    color: var(--color-accent);
+  }
+
+  ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+</style>
