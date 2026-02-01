@@ -26,7 +26,7 @@ const NOVEL_SITE_URL = process.env.NOVEL_SITE_URL || 'https://novels.cqi365.net'
 
 // Novel metadata
 const NOVELS = {
-  '2028ww3': {
+  'BlindOrbit': {
     title: '盲軌：2028',
     titleEn: 'Blind Orbit',
     category: '盲軌：2028 (Blind Orbit)',
