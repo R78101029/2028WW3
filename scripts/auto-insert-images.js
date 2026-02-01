@@ -237,7 +237,7 @@ async function main() {
         // Insert scene image into body
         if (!imageExistsInContent(body, image.filename)) {
           const altText = generateAltText(image.description, chapterNum);
-          const imageRef = `![${altText}](../_assets/chapters/${image.filename})`;
+          const imageRef = `<img src="../_assets/chapters/${image.filename}" alt="${altText}" style="max-width: 90%; height: auto; display: block; margin: 2rem auto;">`;
           newBody = insertSceneImage(newBody, imageRef);
           console.log(`✓ ${chapterFile}: Insert scene → ${image.filename}`);
           modified = true;
