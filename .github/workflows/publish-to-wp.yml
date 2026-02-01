@@ -6,6 +6,18 @@ on:
       - 'projects/*/chapters/**'
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      sync_all:
+        description: '同步所有章節 (Sync all chapters)'
+        required: false
+        type: boolean
+        default: true
+      novel:
+        description: '小說目錄名稱 (Novel directory name)'
+        required: false
+        type: string
+        default: 'BlindOrbit'
 
 jobs:
   publish:
@@ -21,17 +33,26 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Get changed files
+      - name: Get changed files (push event)
         id: changed-files
+        if: github.event_name == 'push'
         run: |
           echo "files=$(git diff --name-only HEAD~1 HEAD -- 'projects/*/chapters/*.md' | tr '\n' ' ')" >> $GITHUB_OUTPUT
 
+      - name: Get all files (manual trigger)
+        id: all-files
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "files=$(ls projects/${{ inputs.novel }}/chapters/*.md | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
       - name: Publish to WordPress
-        if: steps.changed-files.outputs.files != ''
+        if: steps.changed-files.outputs.files != '' || steps.all-files.outputs.files != ''
         env:
           WP_URL: ${{ secrets.WP_URL }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
           NOVEL_SITE_URL: https://novels.cqi365.net
         run: |
-          node scripts/publish-to-wp.js ${{ steps.changed-files.outputs.files }}
+          FILES="${{ steps.changed-files.outputs.files }}${{ steps.all-files.outputs.files }}"
+          echo "Publishing files: $FILES"
+          node scripts/publish-to-wp.js $FILES
