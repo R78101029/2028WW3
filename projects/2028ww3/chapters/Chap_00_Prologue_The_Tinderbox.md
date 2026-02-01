@@ -1,9 +1,8 @@
 ---
 title: "前奏：火藥桶 (Prologue: The Tinderbox)"
+order: 0
 cover_url: "https://i0.wp.com/blog.cqi365.net/wp-content/uploads/2025/12/image.png?w=1024&ssl=1"
 ---
-
-# Chapter 0: 前奏：火藥桶 (Prologue: The Tinderbox)
 
 ---
 

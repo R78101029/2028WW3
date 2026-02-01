@@ -40,7 +40,7 @@ projects/{novel-name}/
 
 | Project | Status | Description |
 |---------|--------|-------------|
-| `2028ww3` | Active | 2028 第三次世界大戰 - Military thriller |
+| `2028ww3` | Active | 盲軌：2028 (Blind Orbit) - 軍事驚悚小說 |
 
 ## Agent Workflow
 

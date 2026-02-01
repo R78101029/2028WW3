@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run sync && astro build",
     "preview": "astro preview",
     "sync": "node ../scripts/sync-chapters.js"
   },
