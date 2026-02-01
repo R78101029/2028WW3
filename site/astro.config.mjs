@@ -3,6 +3,6 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   integrations: [mdx()],
-  site: 'https://your-domain.pages.dev',
+  site: 'https://novels.cqi365.net',
   output: 'static',
 });
