@@ -1,0 +1,26 @@
+{
+  "novels": [
+    {
+      "slug": "2028ww3",
+      "title": "盲軌：2028",
+      "titleEn": "Blind Orbit",
+      "genre": "軍事驚悚",
+      "description": "當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。沒有 GPS、沒有衛星、沒有網路——專業軍人們必須在極限壓力下，僅憑直覺與經驗做出生死抉擇。",
+      "status": "ongoing",
+      "statusText": "連載中",
+      "tags": ["軍事", "科幻", "多視角"],
+      "coverUrl": "https://i0.wp.com/blog.cqi365.net/wp-content/uploads/2025/12/blind-orbit_%E5%B0%81%E9%9D%A2.jpg?w=1024&ssl=1",
+      "wordpress": {
+        "category": "盲軌：2028 (Blind Orbit)",
+        "coverMediaId": null
+      }
+    }
+  ],
+  "site": {
+    "name": "Novels365",
+    "tagline": "Stories That Matter, 365 Days",
+    "subtitle": "沉浸在精心打造的故事世界",
+    "author": "CQI365"
+  },
+  "genres": ["全部", "軍事驚悚", "科幻", "奇幻", "懸疑"]
+}

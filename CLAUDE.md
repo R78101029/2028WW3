@@ -33,9 +33,30 @@ To manage concurrent edits by multiple agents:
 │   └── {novel-name}/   # Each novel has its own directory
 ├── site/               # Astro-based publishing website
 ├── scripts/            # Build and publishing utilities
-├── .agent/             # Agent configuration (antigravity)
+├── novels.config.json  # Central configuration for all novels
 └── CLAUDE.md           # This file
 ```
+
+## Configuration System
+
+### Central Config: `novels.config.json`
+
+All novel metadata is centralized in `novels.config.json`:
+- Novel info (title, description, tags, cover)
+- Site settings (name, tagline)
+- Genre categories
+
+**Do NOT hardcode novel data in pages** - always read from config.
+
+### Dynamic Stats: `site/src/data/novels-stats.json`
+
+Generated automatically during build:
+- Chapter count
+- Word count
+
+Scripts:
+- `scripts/generate-stats.js` - Generate stats
+- `scripts/sync-chapters.js` - Sync chapters to site
 
 ## Working with Novel Projects
 
@@ -50,10 +71,11 @@ To manage concurrent edits by multiple agents:
 ```
 projects/{novel-name}/
 ├── _CONTEXT.md      # Quick reference (READ THIS FIRST)
-├── _meta/           # Project management files
+├── _meta/           # Project management & skills
 ├── _world/          # World-building documents
 ├── _characters/     # Character profiles
 ├── chapters/        # Story content
+├── _assets/         # Images (covers, scenes)
 └── _archives/       # Old versions and drafts
 ```
 
@@ -72,9 +94,61 @@ projects/{novel-name}/
 5. **Update** `_meta/chapter_order.md` after changes.
 6. **Archive** old versions in `_archives/` if doing major rewrites.
 
+## Skills Reference
+
+Documented procedures in `projects/{novel}/_meta/`:
+
+| Skill | File | Description |
+|-------|------|-------------|
+| Image Handling | `skill_image_handling.md` | Covers, scenes, WordPress upload |
+| Add Novel | `skill_add_novel.md` | Complete guide to add new novel |
+
 ## Publishing
 
-The `site/` directory contains an Astro-based website that reads from `projects/` and publishes to Cloudflare Pages.
+### Website (Cloudflare Pages)
 
-Build command: `npm run build`
-Output directory: `dist`
+```bash
+cd site
+npm run build    # Runs: sync + stats + astro build
+npm run preview  # Local preview
+```
+
+Build process:
+1. `sync-chapters.js` - Copy chapters to `site/src/content/novels/`
+2. `generate-stats.js` - Calculate chapter/word counts
+3. `astro build` - Generate static site
+
+Deployment:
+- **Platform**: Cloudflare Pages
+- **Build command**: `npm run build`
+- **Output directory**: `dist`
+- **Root directory**: `site`
+
+### WordPress (Optional)
+
+Script: `scripts/publish-to-wp.js`
+
+Required GitHub Secrets:
+- `WP_URL` - WordPress site URL
+- `WP_USER` - Username
+- `WP_APP_PASSWORD` - Application password
+
+## Build Commands
+
+```bash
+# From project root
+node scripts/sync-chapters.js [novel-slug]  # Sync chapters
+node scripts/generate-stats.js              # Generate stats
+
+# From site/ directory
+npm run build     # Full build (sync + stats + astro)
+npm run dev       # Development server
+npm run preview   # Preview built site
+```
+
+## Important Notes
+
+1. **Generated content is gitignored**: `site/src/content/novels/` is rebuilt during build
+2. **Always test locally**: Run `npm run build` before pushing
+3. **Config is source of truth**: Novel metadata comes from `novels.config.json`
+4. **Images**: Follow `skill_image_handling.md` for proper handling

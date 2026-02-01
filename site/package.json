@@ -3,10 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "npm run sync && astro build",
+    "dev": "npm run prebuild && astro dev",
+    "build": "npm run prebuild && astro build",
     "preview": "astro preview",
-    "sync": "node ../scripts/sync-chapters.js"
+    "prebuild": "npm run sync && npm run stats",
+    "sync": "node ../scripts/sync-chapters.js",
+    "stats": "node ../scripts/generate-stats.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",

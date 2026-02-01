@@ -16,7 +16,7 @@ const novelInfo = {
 const allChapters = await getCollection('novels');
 console.log('Sample IDs:', allChapters.slice(0, 3).map(c => c.id));
 const chapters = allChapters
-  .filter(c => c.id.startsWith('BlindOrbit/'))
+  .filter(c => c.id.toLowerCase().startsWith('blindorbit/'))
   .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 console.log('Filtered chapters count:', chapters.length);
 
@@ -29,7 +29,7 @@ const parts = [
 ];
 
 function getChapterSlug(id: string) {
-  return id.replace('BlindOrbit/', '').replace('.md', '');
+  return id.replace(/^blindorbit\//i, '').replace('.md', '');
 }
 ---
 

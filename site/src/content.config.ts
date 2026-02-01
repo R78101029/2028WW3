@@ -6,6 +6,11 @@ const novels = defineCollection({
   schema: z.object({
     title: z.string(),
     order: z.number(),
+    // Cover image fields
+    cover: z.string().optional(),
+    cover_url: z.string().optional(),
+    cover_media_id: z.union([z.string(), z.number()]).optional(),
+    // Optional metadata
     pov: z.string().optional(),
     timeline: z.string().optional(),
   }),

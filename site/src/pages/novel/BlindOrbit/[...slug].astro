@@ -5,11 +5,12 @@ import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
   const allChapters = await getCollection('novels');
   const chapters = allChapters
-    .filter(c => c.id.startsWith('BlindOrbit/'))
+    .filter(c => c.id.toLowerCase().startsWith('blindorbit/'))
     .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
   return chapters.map((chapter, index) => {
-    const slug = chapter.id.replace('BlindOrbit/', '').replace('.md', '');
+    // Remove novel prefix (case-insensitive) and .md extension
+    const slug = chapter.id.replace(/^blindorbit\//i, '').replace('.md', '');
     const prevChapter = index > 0 ? chapters[index - 1] : null;
     const nextChapter = index < chapters.length - 1 ? chapters[index + 1] : null;
 
@@ -18,11 +19,11 @@ export async function getStaticPaths() {
       props: {
         chapter,
         prevChapter: prevChapter ? {
-          slug: prevChapter.id.replace('BlindOrbit/', '').replace('.md', ''),
+          slug: prevChapter.id.replace(/^blindorbit\//i, '').replace('.md', ''),
           title: prevChapter.data.title,
         } : null,
         nextChapter: nextChapter ? {
-          slug: nextChapter.id.replace('BlindOrbit/', '').replace('.md', ''),
+          slug: nextChapter.id.replace(/^blindorbit\//i, '').replace('.md', ''),
           title: nextChapter.data.title,
         } : null,
       },

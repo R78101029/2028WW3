@@ -11,8 +11,9 @@
  */
 
 import { readdir, readFile, writeFile, mkdir, copyFile } from 'fs/promises';
-import { join, basename } from 'path';
+import { join, basename, dirname } from 'path';
 import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
 
 // Basic paths relative to the script's likely execution contexts
 const PROJECTS_DIR = existsSync('./projects') ? './projects' : '../projects';
@@ -55,6 +56,15 @@ function parseYamlFrontmatter(frontmatterStr) {
     }
   });
   return obj;
+}
+
+// Convert relative asset paths to absolute public paths
+function convertAssetPaths(content, novelName) {
+  // Convert ../_assets/... to /assets/{novelName}/...
+  return content.replace(
+    /\(\.\.?\/_assets\/(.*?)\)/g,
+    (match, path) => `(/assets/${novelName}/${path})`
+  );
 }
 
 // Generate frontmatter for chapter, preserving existing fields
@@ -115,7 +125,10 @@ async function syncNovel(novelName) {
 
     // Add or update frontmatter
     const newFrontmatter = generateFrontmatter(file, frontmatter);
-    const newContent = `${newFrontmatter}\n\n${body}`;
+
+    // Convert relative asset paths to absolute public paths
+    const convertedBody = convertAssetPaths(body, novelName);
+    const newContent = `${newFrontmatter}\n\n${convertedBody}`;
 
     await writeFile(destPath, newContent);
     console.log(`  ✓ ${file}`);

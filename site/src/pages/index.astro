@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import config from '../../../novels.config.json';
+import stats from '../data/novels-stats.json';
 
 // Novel data - can be expanded for multiple novels
 const novels = [
@@ -19,7 +21,7 @@ const novels = [
   // Future novels can be added here
 ];
 
-const genres = ['全部', '軍事驚悚', '科幻', '奇幻', '懸疑'];
+const genres = config.genres;
 
 const features = [
   {
@@ -46,9 +48,9 @@ const features = [
     <div class="hero-container">
       <div class="hero-content">
         <span class="hero-badge">原創小說平台</span>
-        <h1>Novels365</h1>
-        <p class="tagline">Stories That Matter, 365 Days</p>
-        <p class="subtitle">沉浸在精心打造的故事世界</p>
+        <h1>{config.site.name}</h1>
+        <p class="tagline">{config.site.tagline}</p>
+        <p class="subtitle">{config.site.subtitle}</p>
         <p class="description">
           這裡沒有無敵英雄，只有在極限環境下掙扎求生的普通人。<br/>
           我們用文字構建世界，用故事探索人性。
