@@ -260,6 +260,61 @@ function resolveCoverPath(chapterFile, coverValue, novelSlug) {
 }
 
 /**
+ * Find WordPress media by URL
+ */
+async function findMediaByUrl(url) {
+  // Extract filename from URL
+  const filename = basename(url).split('?')[0];
+  const searchName = filename.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9]/g, '-');
+
+  const endpoint = `${WP_URL}/wp-json/wp/v2/media?search=${encodeURIComponent(searchName)}`;
+
+  const response = await fetch(endpoint, {
+    headers: { 'Authorization': getAuthHeader() },
+  });
+
+  if (!response.ok) return null;
+
+  const media = await response.json();
+  // Find match by source_url
+  const match = media.find(m => m.source_url && m.source_url.includes(filename));
+  return match ? match.id : null;
+}
+
+/**
+ * Handle cover - supports file path, WordPress URL, or media ID
+ */
+async function resolveCover(chapterFile, frontmatter, novelSlug) {
+  // Priority 1: Direct media ID
+  if (frontmatter.cover_media_id) {
+    const mediaId = parseInt(frontmatter.cover_media_id, 10);
+    console.log(`    Cover: Using WP media ID ${mediaId}`);
+    return mediaId;
+  }
+
+  // Priority 2: WordPress URL
+  if (frontmatter.cover_url) {
+    console.log(`    Cover: Looking up ${frontmatter.cover_url}`);
+    const mediaId = await findMediaByUrl(frontmatter.cover_url);
+    if (mediaId) {
+      console.log(`    ✓ Found WP media ID: ${mediaId}`);
+      return mediaId;
+    }
+    console.log(`    ⚠ Media not found in WP library`);
+    return null;
+  }
+
+  // Priority 3: Local file
+  if (frontmatter.cover) {
+    const coverPath = resolveCoverPath(chapterFile, frontmatter.cover, novelSlug);
+    console.log(`    Cover: ${frontmatter.cover}`);
+    return await uploadImageToWordPress(coverPath, `${novelSlug} cover`);
+  }
+
+  return null;
+}
+
+/**
  * Post to WordPress (create or update)
  */
 async function postToWordPress(title, content, excerpt, slug, featuredMediaId = null) {
@@ -347,13 +402,8 @@ async function main() {
       const chapterUrl = `${NOVEL_SITE_URL}/novel/${novelSlug}/${chapterSlug}`;
       const wpSlug = generatePostSlug(novelSlug, chapterSlug);
 
-      // Handle cover image
-      let featuredMediaId = null;
-      if (frontmatter.cover) {
-        const coverPath = resolveCoverPath(file, frontmatter.cover, novelSlug);
-        console.log(`    Cover: ${frontmatter.cover}`);
-        featuredMediaId = await uploadImageToWordPress(coverPath, `${novel.title} - ${chapterTitle}`);
-      }
+      // Handle cover image (supports: cover, cover_url, cover_media_id)
+      const featuredMediaId = await resolveCover(file, frontmatter, novelSlug);
 
       // Convert inline images to use Novels365 URLs
       const bodyWithUrls = convertInlineImages(body, novelSlug);
