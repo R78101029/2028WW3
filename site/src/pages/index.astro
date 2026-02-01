@@ -1,148 +1,177 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Novel data
+// Novel data - can be expanded for multiple novels
 const novels = [
   {
     slug: '2028ww3',
     title: '2028 第三次世界大戰',
+    genre: '軍事驚悚',
     description: '當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。沒有 GPS、沒有衛星、沒有網路——專業軍人們必須在極限壓力下，僅憑直覺與經驗做出生死抉擇。',
-    status: '連載中',
+    status: 'ongoing',
+    statusText: '連載中',
     chapters: 35,
     words: '120,000+',
-    tags: ['軍事驚悚', '科幻', '戰爭'],
+    tags: ['軍事', '科幻', '多視角'],
   },
+  // Future novels can be added here
+  // {
+  //   slug: 'future-novel',
+  //   title: '未來小說',
+  //   genre: '奇幻',
+  //   ...
+  // },
 ];
+
+const genres = ['全部', '軍事驚悚', '科幻', '奇幻', '懸疑'];
 
 const features = [
   {
+    icon: '📖',
+    title: '沉浸式閱讀',
+    description: '精心設計的閱讀介面，讓您專注於故事本身',
+  },
+  {
     icon: '🎯',
-    title: '硬派寫實風格',
-    description: '湯姆克蘭西式軍事驚悚，注重戰術細節與裝備考據',
+    title: '硬派寫實',
+    description: '注重考據與細節，打造身歷其境的閱讀體驗',
   },
   {
     icon: '🌏',
     title: '多線敘事',
-    description: '橫跨亞洲、歐洲、中東的全球視角，多角色交織的史詩故事',
-  },
-  {
-    icon: '🔇',
-    title: '技術致盲設定',
-    description: '獨特的「寧靜海」設定，回歸二戰式的資訊迷霧戰場',
+    description: '多角色視角交織，呈現故事的不同面向',
   },
 ];
 ---
 
-<BaseLayout title="小說平台 - 原創軍事驚悚小說">
-  <div class="container">
-    <!-- Hero Section -->
-    <section class="hero">
-      <h1>探索戰爭的另一面</h1>
-      <p class="subtitle">
-        這裡沒有無敵英雄，只有在極限壓力下掙扎求生的普通人。<br/>
-        原創軍事驚悚小說，帶你深入現代戰爭的資訊迷霧。
-      </p>
-      <a href="/novel/2028ww3" class="cta-button">開始閱讀</a>
-    </section>
-
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value">35+</div>
-        <div class="stat-label">章節</div>
+<BaseLayout title="Novels365 - 原創小說平台">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <span class="hero-badge">原創小說平台</span>
+        <h1>Novels365</h1>
+        <p class="tagline">Stories That Matter, 365 Days</p>
+        <p class="subtitle">沉浸在精心打造的故事世界</p>
+        <p class="description">
+          這裡沒有無敵英雄，只有在極限環境下掙扎求生的普通人。<br/>
+          我們用文字構建世界，用故事探索人性。
+        </p>
+        <div class="hero-buttons">
+          <a href="/novel/2028ww3" class="btn btn-primary">
+            開始閱讀
+            <span>→</span>
+          </a>
+          <a href="#novels" class="btn btn-outline">
+            探索所有作品
+          </a>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-value">120K+</div>
-        <div class="stat-label">字數</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">4</div>
-        <div class="stat-label">戰區</div>
+      <div class="hero-visual">
+        <div class="hero-graphic">
+          <div class="hero-circles">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+          </div>
+          <div class="hero-center-icon">📚</div>
+        </div>
       </div>
     </div>
+    <div class="scroll-indicator">向下滾動</div>
+  </section>
 
-    <!-- Features -->
-    <section class="features">
-      {features.map((feature) => (
-        <div class="feature-card">
-          <div class="icon">{feature.icon}</div>
-          <h3>{feature.title}</h3>
-          <p>{feature.description}</p>
-        </div>
-      ))}
-    </section>
-
-    <!-- Novel Section -->
-    <section class="novels-section">
+  <!-- Novels Section -->
+  <section id="novels" class="section">
+    <div class="container-wide">
       <div class="section-header">
-        <h2>連載作品</h2>
-        <p>點擊卡片開始閱讀</p>
+        <h2>作品列表</h2>
+        <p>探索我們的原創小說</p>
       </div>
 
-      <div class="novel-grid">
-        {novels.map((novel) => (
-          <a href={`/novel/${novel.slug}`} class="novel-card">
-            <h2>{novel.title}</h2>
-            <div class="meta">
-              <span class="status">{novel.status}</span>
-              <span class="chapters-count">{novel.chapters} 章 · {novel.words} 字</span>
-            </div>
-            <p class="description">{novel.description}</p>
-            <div class="tags">
-              {novel.tags.map((tag) => (
-                <span class="tag">{tag}</span>
-              ))}
-            </div>
-          </a>
+      <!-- Genre Tabs -->
+      <div class="genre-tabs">
+        {genres.map((genre, index) => (
+          <button class={`genre-tab ${index === 0 ? 'active' : ''}`}>
+            {genre}
+          </button>
         ))}
       </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="about-section">
+      <!-- Novel Grid -->
+      <div class="novel-grid">
+        {novels.map((novel) => (
+          <article class="novel-card">
+            <div class="novel-card-header">
+              <span class="novel-card-genre">{novel.genre}</span>
+              <h3>{novel.title}</h3>
+              <div class="novel-card-meta">
+                <span class={`status-badge ${novel.status}`}>
+                  <span class="status-dot"></span>
+                  {novel.statusText}
+                </span>
+                <span>{novel.chapters} 章</span>
+                <span>{novel.words} 字</span>
+              </div>
+            </div>
+            <div class="novel-card-body">
+              <p class="novel-card-description">{novel.description}</p>
+              <div class="novel-card-tags">
+                {novel.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+            <div class="novel-card-footer">
+              <a href={`/novel/${novel.slug}`} class="novel-card-link">
+                <span>開始閱讀</span>
+                <span>→</span>
+              </a>
+            </div>
+          </article>
+        ))}
+
+        <!-- Coming Soon Card -->
+        <article class="novel-card" style="opacity: 0.6;">
+          <div class="novel-card-header">
+            <span class="novel-card-genre">敬請期待</span>
+            <h3>更多作品籌備中...</h3>
+            <div class="novel-card-meta">
+              <span class="status-badge">即將推出</span>
+            </div>
+          </div>
+          <div class="novel-card-body">
+            <p class="novel-card-description">
+              我們正在努力創作更多精彩的故事。敬請期待新作品的發布！
+            </p>
+          </div>
+          <div class="novel-card-footer">
+            <span class="novel-card-link" style="cursor: default; opacity: 0.5;">
+              <span>即將推出</span>
+            </span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" style="background: var(--color-bg-secondary);">
+    <div class="container-wide">
       <div class="section-header">
-        <h2>關於本作</h2>
+        <h2>為什麼選擇我們</h2>
+        <p>專注於閱讀體驗的原創小說平台</p>
       </div>
-      <div class="about-content">
-        <p>
-          《2028 第三次世界大戰》是一部以近未來為背景的軍事驚悚小說。故事始於一場前所未見的量子攻擊——代號「寧靜海」——癱瘓了全球的衛星通訊系統。
-        </p>
-        <p>
-          在沒有 GPS、沒有即時情報、通訊時斷時續的世界裡，現代軍隊被迫回到二戰時期的作戰方式。飛行員無法進行超視距攻擊，指揮官無法掌握全局戰況，每個人都在資訊的迷霧中摸索前進。
-        </p>
-        <p>
-          本作採用多視角敘事，從台灣海峽的雷達官、歐洲戰場的德國士兵、到中東的情報特工，呈現戰爭的不同面向。這裡沒有超級英雄，只有在極限壓力下做出艱難抉擇的普通人。
-        </p>
+
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature-card">
+            <div class="feature-icon">{feature.icon}</div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        ))}
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </BaseLayout>
-
-<style>
-  .novels-section {
-    margin-top: 4rem;
-  }
-
-  .about-section {
-    margin-top: 4rem;
-    padding: 3rem;
-    background: var(--color-bg-secondary);
-    border-radius: 12px;
-    border: 1px solid var(--color-border);
-  }
-
-  .about-content {
-    max-width: 680px;
-    margin: 0 auto;
-  }
-
-  .about-content p {
-    color: var(--color-text);
-    line-height: 1.9;
-    margin-bottom: 1.25rem;
-  }
-
-  .about-content p:last-child {
-    margin-bottom: 0;
-  }
-</style>
