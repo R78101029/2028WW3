@@ -11,12 +11,18 @@
  */
 
 import { readdir, readFile, writeFile, mkdir, copyFile } from 'fs/promises';
-import { join, basename } from 'path';
+import { join, basename, dirname } from 'path';
 import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
 
-const PROJECTS_DIR = './projects';
-const CONTENT_DIR = './site/src/content/novels';
-const PUBLIC_ASSETS_DIR = './site/public/assets';
+// Get project root directory (parent of scripts/)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const PROJECT_ROOT = join(__dirname, '..');
+
+const PROJECTS_DIR = join(PROJECT_ROOT, 'projects');
+const CONTENT_DIR = join(PROJECT_ROOT, 'site/src/content/novels');
+const PUBLIC_ASSETS_DIR = join(PROJECT_ROOT, 'site/public/assets');
 
 // Chapter order mapping based on file naming convention
 function getChapterOrder(filename) {
