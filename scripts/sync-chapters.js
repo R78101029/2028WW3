@@ -58,6 +58,15 @@ function parseYamlFrontmatter(frontmatterStr) {
   return obj;
 }
 
+// Convert relative asset paths to absolute public paths
+function convertAssetPaths(content, novelName) {
+  // Convert ../_assets/... to /assets/{novelName}/...
+  return content.replace(
+    /\(\.\.?\/_assets\/(.*?)\)/g,
+    (match, path) => `(/assets/${novelName}/${path})`
+  );
+}
+
 // Generate frontmatter for chapter, preserving existing fields
 function generateFrontmatter(filename, existingFrontmatter) {
   const existing = parseYamlFrontmatter(existingFrontmatter);
@@ -116,7 +125,10 @@ async function syncNovel(novelName) {
 
     // Add or update frontmatter
     const newFrontmatter = generateFrontmatter(file, frontmatter);
-    const newContent = `${newFrontmatter}\n\n${body}`;
+
+    // Convert relative asset paths to absolute public paths
+    const convertedBody = convertAssetPaths(body, novelName);
+    const newContent = `${newFrontmatter}\n\n${convertedBody}`;
 
     await writeFile(destPath, newContent);
     console.log(`  ✓ ${file}`);
