@@ -8,6 +8,8 @@ interface Props {
   chapterNumber?: string;
   prevChapter?: { slug: string; title: string } | null;
   nextChapter?: { slug: string; title: string } | null;
+  coverUrl?: string;
+  cover?: string;
 }
 
 const {
@@ -16,8 +18,18 @@ const {
   novelSlug,
   chapterNumber,
   prevChapter,
-  nextChapter
+  nextChapter,
+  coverUrl,
+  cover
 } = Astro.props;
+
+// Resolve cover image URL
+let coverImageUrl: string | null = null;
+if (coverUrl) {
+  coverImageUrl = coverUrl;
+} else if (cover) {
+  coverImageUrl = `/assets/${novelSlug}/chapters/${cover}`;
+}
 ---
 
 <BaseLayout title={`${title} - ${novelTitle}`}>
@@ -28,6 +40,11 @@ const {
       </p>
       {chapterNumber && <span class="chapter-number">{chapterNumber}</span>}
       <h1>{title}</h1>
+      {coverImageUrl && (
+        <figure class="chapter-cover">
+          <img src={coverImageUrl} alt={title} />
+        </figure>
+      )}
     </header>
 
     <div class="chapter-content">
