@@ -1,17 +1,7 @@
 ---
-title: "Pentagon Vacuum"
+title: "[Interlude] 五角大廈的真空 (The Vacuum at the Pentagon)"
 order: 50
 ---
-
-# Chapter 5: [Interlude] 五角大廈的真空 (The Vacuum at the Pentagon)
-
-<metadata>
-- **時間軸**：T-Hour + 2小時
-- **地點**：華盛頓特區，五角大廈 / 白宮
-- **POV**：大衛·阿德勒將軍 (General David Adler)
-- **字數目標**：~4000 字（擴寫版）
-- **核心主題**：指揮真空中的決策、父親與將軍的衝突
-</metadata>
 
 ---
 

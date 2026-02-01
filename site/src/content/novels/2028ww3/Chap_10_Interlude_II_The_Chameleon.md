@@ -1,9 +1,7 @@
 ---
-title: "II The Chameleon"
+title: "[Interlude II] 變色龍 (The Chameleon)"
 order: 100
 ---
-
-# Chapter 10: [Interlude II] 變色龍 (The Chameleon)
 
 ---
 

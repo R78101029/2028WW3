@@ -1,9 +1,7 @@
 ---
-title: "Hunter Hunted"
+title: "獵人與獵物 (Hunter Hunted)"
 order: 170
 ---
-
-# Chapter 17: 獵人與獵物 (Hunter Hunted)
 
 ---
 

@@ -1,9 +1,7 @@
 ---
-title: "Glass Maze"
+title: "玻璃迷宮 (Glass Maze)"
 order: 140
 ---
-
-# Chapter 14: 玻璃迷宮 (Glass Maze)
 
 ---
 

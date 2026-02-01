@@ -1,9 +1,7 @@
 ---
-title: "The Ant Colony"
+title: "蟻群 (The Ant Colony)"
 order: 30
 ---
-
-# Chapter 3: 蟻群 (The Ant Colony)
 
 ---
 

@@ -1,9 +1,7 @@
 ---
-title: "Pine Gap Heartbeat"
+title: "Chapter 18-B: 心跳 (Heartbeat)"
 order: 182
 ---
-
-# Chapter 18-B: 心跳 (Heartbeat)
 
 ---
 

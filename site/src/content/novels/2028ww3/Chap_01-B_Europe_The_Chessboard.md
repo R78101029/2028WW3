@@ -1,17 +1,7 @@
 ---
-title: "The Chessboard"
+title: "第一章-B：棋盤 (The Chessboard)"
 order: 12
 ---
-
-# 第一章-B：棋盤 (The Chessboard)
-
-<metadata>
-- **時間軸**：T-Hour - 24 小時
-- **地點**：布魯塞爾，歐盟執委會總部 / 蘇菲公寓
-- **POV**：蘇菲·洛朗 (Sophie Laurent)
-- **字數目標**：~4500 字
-- **核心主題**：反派的人性化、自我欺騙、權力的代價
-</metadata>
 
 ---
 

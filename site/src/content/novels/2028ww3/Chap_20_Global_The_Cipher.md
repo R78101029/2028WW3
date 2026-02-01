@@ -1,9 +1,7 @@
 ---
-title: "The Cipher"
+title: "密碼 (The Cipher)"
 order: 200
 ---
-
-# Chapter 20: 密碼 (The Cipher)
 
 ---
 
@@ -191,4 +189,3 @@ Sullivan 的臉色變了。他的手本能地摸向腰間的槍套。
 「去見前女友。」伊萊亞斯給手槍換了一個新彈匣，「然後結束這一切。」
 
 *—— 下一章：Chapter 21: 長刀之夜 (Night of Long Knives)*
-

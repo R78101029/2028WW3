@@ -1,17 +1,7 @@
 ---
-title: "Twenty Years"
+title: "第三章-B：二十年 (Twenty Years)"
 order: 32
 ---
-
-# 第三章-B：二十年 (Twenty Years)
-
-<metadata>
-- **時間軸**：2008年（回憶）至 T-Hour - 48小時
-- **地點**：北京 / 新竹 / 台北
-- **POV**：張弘毅 (Colonel Chang Hung-Yi)
-- **字數目標**：~4500 字
-- **核心主題**：背叛的漸進過程、自我欺騙、無法回頭的選擇
-</metadata>
 
 ---
 

@@ -1,10 +1,7 @@
 ---
-title: "Scorched Earth"
+title: "焦土 (Scorched Earth)"
 order: 230
 ---
-
-
-# Chapter 23: 焦土 (Scorched Earth)
 
 ---
 

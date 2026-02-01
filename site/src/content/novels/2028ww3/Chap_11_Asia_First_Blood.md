@@ -1,9 +1,7 @@
 ---
-title: "First Blood"
+title: "背叛與第一滴血 (Betrayal & First Blood)"
 order: 110
 ---
-
-# Chapter 11: 背叛與第一滴血 (Betrayal & First Blood)
 
 ---
 
@@ -119,7 +117,6 @@ Reaper 眼睜睜地看著第一架 F-16V 在空中變成了一團火球。
 「這是屠殺。」Reaper 的手握緊了操縱桿，指節發白，「這不是空戰。這是行刑。」
 
 ---
-
 
 **時間：T-Hour + 45 分鐘**
 **位置：高空 30,000 英呎**

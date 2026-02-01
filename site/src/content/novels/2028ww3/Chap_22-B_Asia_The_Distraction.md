@@ -1,9 +1,7 @@
 ---
-title: "The Distraction"
+title: "Chapter 22-B: 牽制 (The Distraction)"
 order: 222
 ---
-
-# Chapter 22-B: 牽制 (The Distraction)
 
 ---
 

@@ -1,9 +1,7 @@
 ---
-title: "Night of Long Knives"
+title: "長刀之夜 (Night of Long Knives)"
 order: 210
 ---
-
-# Chapter 21: 長刀之夜 (Night of Long Knives)
 
 ---
 

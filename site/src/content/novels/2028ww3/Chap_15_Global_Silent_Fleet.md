@@ -1,9 +1,7 @@
 ---
-title: "Silent Fleet"
+title: "沉默的艦隊 (Silent Fleet)"
 order: 150
 ---
-
-# Chapter 15: 沉默的艦隊 (Silent Fleet)
 
 ---
 

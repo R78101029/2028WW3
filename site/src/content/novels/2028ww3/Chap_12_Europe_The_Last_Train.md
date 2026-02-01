@@ -1,9 +1,7 @@
 ---
-title: "The Last Train"
+title: "最後的列車 (The Last Train)"
 order: 120
 ---
-
-# Chapter 12: 最後的列車 (The Last Train)
 
 ---
 

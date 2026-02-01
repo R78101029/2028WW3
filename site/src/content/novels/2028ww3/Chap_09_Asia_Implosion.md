@@ -1,9 +1,7 @@
 ---
-title: "Implosion"
+title: "內爆 (Implosion)"
 order: 90
 ---
-
-# Chapter 9: 內爆 (Implosion)
 
 ---
 

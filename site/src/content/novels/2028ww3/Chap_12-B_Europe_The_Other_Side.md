@@ -1,17 +1,7 @@
 ---
-title: "The Other Side"
+title: "第十二章-B：另一邊 (The Other Side)"
 order: 122
 ---
-
-# 第十二章-B：另一邊 (The Other Side)
-
-<metadata>
-- **時間軸**：T+12小時（與 Chap_12 同時）
-- **地點**：波蘭邊境，蘇瓦烏基走廊
-- **POV**：阿列克謝·索科洛夫 中尉 (Lieutenant Alexei Sokolov)
-- **字數目標**：~4000 字
-- **核心主題**：敵方人性化、士兵的困惑、戰爭的荒謬
-</metadata>
 
 ---
 

@@ -1,9 +1,7 @@
 ---
-title: "Blood Trail"
+title: "血路 (Blood Trail)"
 order: 190
 ---
-
-# Chapter 19: 血路 (Blood Trail)
 
 ---
 

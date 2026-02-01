@@ -1,16 +1,8 @@
 ---
-title: "The Tinderbox"
+title: "前奏：火藥桶 (Prologue: The Tinderbox)"
 order: 0
+cover_url: "https://i0.wp.com/blog.cqi365.net/wp-content/uploads/2025/12/image.png?w=1024&ssl=1"
 ---
-
-# Chapter 0: 前奏：火藥桶 (Prologue: The Tinderbox)
-
-<metadata>
-- **時間軸**：2025年4月 至 2028年11月（戰前三年）
-- **POV**：馬修·柯乃爾 (Matthew Cornell) / 文件交錯
-- **字數目標**：~5000 字
-- **核心主題**：西方世界的自我解除武裝、叛逃者的動機
-</metadata>
 
 ---
 

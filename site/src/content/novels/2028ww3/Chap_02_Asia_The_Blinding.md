@@ -1,9 +1,7 @@
 ---
-title: "The Blinding"
+title: "致盲 (The Blinding)"
 order: 20
 ---
-
-# Chapter 2: 致盲 (The Blinding)
 
 ---
 

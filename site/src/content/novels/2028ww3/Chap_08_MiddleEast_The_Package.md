@@ -1,9 +1,7 @@
 ---
-title: "The Package"
+title: "包裹 (The Package)"
 order: 80
 ---
-
-# Chapter 8: 包裹 (The Package)
 
 ---
 

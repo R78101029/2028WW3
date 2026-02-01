@@ -1,9 +1,7 @@
 ---
-title: "Black Fog"
+title: "黑霧 (Black Fog)"
 order: 130
 ---
-
-# Chapter 13: 黑霧 (Black Fog)
 
 ---
 

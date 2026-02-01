@@ -1,9 +1,7 @@
 ---
-title: "Tokyo Choice"
+title: "[Interlude I-C] 東京的選擇 (Tokyo's Choice)"
 order: 70
 ---
-
-# Chapter 7: [Interlude I-C] 東京的選擇 (Tokyo's Choice)
 
 ---
 
@@ -132,4 +130,3 @@ order: 70
 *—— 下一章：Chapter 8: 包裹 (The Package)*
 
 ---
-
