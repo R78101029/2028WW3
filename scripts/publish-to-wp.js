@@ -9,10 +9,15 @@
  * - WP_USER: WordPress username
  * - WP_APP_PASSWORD: WordPress application password
  * - NOVEL_SITE_URL: Novel site URL for "read more" links
+ *
+ * Image handling:
+ * - Cover images (frontmatter `cover` field): Uploaded to WP as featured image
+ * - Inline images: Converted to use NOVEL_SITE_URL URLs
  */
 
-import { readFile } from 'fs/promises';
-import { basename } from 'path';
+import { readFile, access } from 'fs/promises';
+import { basename, dirname, join } from 'path';
+import { constants } from 'fs';
 
 const WP_URL = process.env.WP_URL || 'https://blog.cqi365.net';
 const WP_USER = process.env.WP_USER;
@@ -26,6 +31,13 @@ const NOVELS = {
     category: '小說連載',
   },
 };
+
+/**
+ * Get auth header
+ */
+function getAuthHeader() {
+  return `Basic ${Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString('base64')}`;
+}
 
 /**
  * Extract frontmatter and content from markdown
@@ -43,31 +55,6 @@ function parseMarkdown(content) {
     return { frontmatter, body: frontmatterMatch[2].trim() };
   }
   return { frontmatter: {}, body: content };
-}
-
-/**
- * Convert markdown to HTML (basic conversion)
- */
-function markdownToHtml(markdown) {
-  return markdown
-    // Headers
-    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    // Bold and italic
-    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    // Line breaks and paragraphs
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br>')
-    // Wrap in paragraph
-    .replace(/^/, '<p>')
-    .replace(/$/, '</p>')
-    // Clean up empty paragraphs
-    .replace(/<p><\/p>/g, '')
-    .replace(/<p><h/g, '<h')
-    .replace(/<\/h([1-6])><\/p>/g, '</h$1>');
 }
 
 /**
@@ -90,6 +77,7 @@ function getNovelSlug(filepath) {
  */
 function createExcerpt(content, maxLength = 500) {
   const plainText = content
+    .replace(/!\[.*?\]\(.*?\)/g, '')  // Remove images
     .replace(/[#*_`]/g, '')
     .replace(/\n+/g, ' ')
     .trim();
@@ -100,24 +88,151 @@ function createExcerpt(content, maxLength = 500) {
 }
 
 /**
+ * Convert inline markdown images to use Novels365 URLs
+ */
+function convertInlineImages(markdown, novelSlug) {
+  // Convert relative image paths to absolute URLs
+  // ![alt](../_assets/chapters/image.jpg) -> ![alt](https://novels.cqi365.net/assets/novel-slug/image.jpg)
+  return markdown.replace(
+    /!\[(.*?)\]\(\.\.?\/_assets\/(.*?)\)/g,
+    (match, alt, path) => {
+      const imageUrl = `${NOVEL_SITE_URL}/assets/${novelSlug}/${path}`;
+      return `![${alt}](${imageUrl})`;
+    }
+  );
+}
+
+/**
+ * Convert markdown to HTML (basic conversion)
+ */
+function markdownToHtml(markdown) {
+  return markdown
+    // Images
+    .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" style="max-width:100%;height:auto;">')
+    // Headers
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    // Bold and italic
+    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    // Line breaks and paragraphs
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    // Wrap in paragraph
+    .replace(/^/, '<p>')
+    .replace(/$/, '</p>')
+    // Clean up
+    .replace(/<p><\/p>/g, '')
+    .replace(/<p>(<img[^>]*>)<\/p>/g, '$1')
+    .replace(/<p><h/g, '<h')
+    .replace(/<\/h([1-6])><\/p>/g, '</h$1>');
+}
+
+/**
  * Search for existing post by slug
  */
 async function findExistingPost(slug) {
-  const auth = Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString('base64');
   const endpoint = `${WP_URL}/wp-json/wp/v2/posts?slug=${encodeURIComponent(slug)}&status=publish,draft`;
 
   const response = await fetch(endpoint, {
-    headers: {
-      'Authorization': `Basic ${auth}`,
-    },
+    headers: { 'Authorization': getAuthHeader() },
   });
 
-  if (!response.ok) {
-    return null;
-  }
+  if (!response.ok) return null;
 
   const posts = await response.json();
   return posts.length > 0 ? posts[0] : null;
+}
+
+/**
+ * Search for existing media by filename
+ */
+async function findExistingMedia(filename) {
+  const searchName = basename(filename, '.jpg').replace(/[^a-zA-Z0-9]/g, '-');
+  const endpoint = `${WP_URL}/wp-json/wp/v2/media?search=${encodeURIComponent(searchName)}`;
+
+  const response = await fetch(endpoint, {
+    headers: { 'Authorization': getAuthHeader() },
+  });
+
+  if (!response.ok) return null;
+
+  const media = await response.json();
+  // Find exact match by slug pattern
+  const exactMatch = media.find(m => m.slug.includes(searchName.toLowerCase()));
+  return exactMatch || null;
+}
+
+/**
+ * Upload image to WordPress media library
+ */
+async function uploadImageToWordPress(imagePath, altText) {
+  const filename = basename(imagePath);
+
+  // Check if file exists
+  try {
+    await access(imagePath, constants.R_OK);
+  } catch {
+    console.log(`    ⚠ Cover image not found: ${imagePath}`);
+    return null;
+  }
+
+  // Check if already uploaded
+  const existing = await findExistingMedia(filename);
+  if (existing) {
+    console.log(`    ↻ Cover already exists in WP (ID: ${existing.id})`);
+    return existing.id;
+  }
+
+  // Read and upload
+  const imageBuffer = await readFile(imagePath);
+  const endpoint = `${WP_URL}/wp-json/wp/v2/media`;
+
+  // Determine content type
+  const ext = filename.split('.').pop().toLowerCase();
+  const contentTypes = {
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'png': 'image/png',
+    'gif': 'image/gif',
+    'webp': 'image/webp',
+  };
+  const contentType = contentTypes[ext] || 'image/jpeg';
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': getAuthHeader(),
+      'Content-Type': contentType,
+      'Content-Disposition': `attachment; filename="${filename}"`,
+    },
+    body: imageBuffer,
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.log(`    ⚠ Failed to upload cover: ${error}`);
+    return null;
+  }
+
+  const media = await response.json();
+
+  // Update alt text
+  if (altText) {
+    await fetch(`${WP_URL}/wp-json/wp/v2/media/${media.id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': getAuthHeader(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ alt_text: altText }),
+    });
+  }
+
+  console.log(`    ✓ Cover uploaded (ID: ${media.id})`);
+  return media.id;
 }
 
 /**
@@ -128,11 +243,26 @@ function generatePostSlug(novelSlug, chapterSlug) {
 }
 
 /**
+ * Resolve cover image path
+ */
+function resolveCoverPath(chapterFile, coverValue, novelSlug) {
+  const chapterDir = dirname(chapterFile);
+  const projectDir = join(chapterDir, '..');
+
+  // If cover is just a filename like "ch01-cover.jpg"
+  // Look in _assets/chapters/
+  if (!coverValue.includes('/')) {
+    return join(projectDir, '_assets', 'chapters', coverValue);
+  }
+
+  // If it's a relative path
+  return join(chapterDir, coverValue);
+}
+
+/**
  * Post to WordPress (create or update)
  */
-async function postToWordPress(title, content, excerpt, slug, tags = []) {
-  const auth = Buffer.from(`${WP_USER}:${WP_APP_PASSWORD}`).toString('base64');
-
+async function postToWordPress(title, content, excerpt, slug, featuredMediaId = null) {
   // Check if post already exists
   const existingPost = await findExistingPost(slug);
 
@@ -142,17 +272,19 @@ async function postToWordPress(title, content, excerpt, slug, tags = []) {
     excerpt,
     slug,
     status: 'publish',
-    tags: tags,
   };
+
+  // Add featured image if provided
+  if (featuredMediaId) {
+    postData.featured_media = featuredMediaId;
+  }
 
   let endpoint, method;
 
   if (existingPost) {
-    // Update existing post
     endpoint = `${WP_URL}/wp-json/wp/v2/posts/${existingPost.id}`;
     method = 'PUT';
   } else {
-    // Create new post
     endpoint = `${WP_URL}/wp-json/wp/v2/posts`;
     method = 'POST';
   }
@@ -160,7 +292,7 @@ async function postToWordPress(title, content, excerpt, slug, tags = []) {
   const response = await fetch(endpoint, {
     method,
     headers: {
-      'Authorization': `Basic ${auth}`,
+      'Authorization': getAuthHeader(),
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(postData),
@@ -192,6 +324,8 @@ async function main() {
   }
 
   console.log(`Publishing ${files.length} chapter(s) to WordPress...`);
+  console.log(`Novel site: ${NOVEL_SITE_URL}`);
+  console.log('');
 
   for (const file of files) {
     try {
@@ -199,9 +333,11 @@ async function main() {
       const novel = NOVELS[novelSlug];
 
       if (!novel) {
-        console.log(`  Skipping ${file}: Unknown novel`);
+        console.log(`⊘ Skipping ${file}: Unknown novel`);
         continue;
       }
+
+      console.log(`Processing: ${basename(file)}`);
 
       const content = await readFile(file, 'utf-8');
       const { frontmatter, body } = parseMarkdown(content);
@@ -209,15 +345,23 @@ async function main() {
       const chapterTitle = frontmatter.title || basename(file, '.md');
       const chapterSlug = getChapterSlug(file);
       const chapterUrl = `${NOVEL_SITE_URL}/novel/${novelSlug}/${chapterSlug}`;
-
-      // Generate unique slug for WordPress
       const wpSlug = generatePostSlug(novelSlug, chapterSlug);
 
-      // Create WordPress post
+      // Handle cover image
+      let featuredMediaId = null;
+      if (frontmatter.cover) {
+        const coverPath = resolveCoverPath(file, frontmatter.cover, novelSlug);
+        console.log(`    Cover: ${frontmatter.cover}`);
+        featuredMediaId = await uploadImageToWordPress(coverPath, `${novel.title} - ${chapterTitle}`);
+      }
+
+      // Convert inline images to use Novels365 URLs
+      const bodyWithUrls = convertInlineImages(body, novelSlug);
+
+      // Create WordPress post content
       const wpTitle = `【${novel.title}】${chapterTitle}`;
       const excerpt = createExcerpt(body);
 
-      // Create content with excerpt and link
       const wpContent = `
 <p>${excerpt}</p>
 
@@ -228,18 +372,20 @@ async function main() {
 <p><em>本章節來自《${novel.title}》，更多精彩內容請前往 <a href="${NOVEL_SITE_URL}" target="_blank">Novels365</a> 閱讀。</em></p>
       `.trim();
 
-      const result = await postToWordPress(wpTitle, wpContent, excerpt, wpSlug);
+      const result = await postToWordPress(wpTitle, wpContent, excerpt, wpSlug, featuredMediaId);
       const action = result.isUpdate ? '✓ Updated' : '✓ Created';
       console.log(`  ${action}: ${chapterTitle}`);
-      console.log(`    WordPress URL: ${result.link}`);
+      console.log(`    URL: ${result.link}`);
+      console.log('');
 
     } catch (error) {
       console.error(`  ✗ Failed: ${file}`);
       console.error(`    Error: ${error.message}`);
+      console.log('');
     }
   }
 
-  console.log('\nDone!');
+  console.log('Done!');
 }
 
 main().catch(console.error);

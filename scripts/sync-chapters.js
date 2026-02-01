@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 /**
- * Sync chapters from projects/ to site/src/content/novels/
+ * Sync chapters and assets from projects/ to site/
  *
  * Usage: node scripts/sync-chapters.js [novel-name]
  * Example: node scripts/sync-chapters.js 2028ww3
+ *
+ * This script:
+ * - Syncs chapters to site/src/content/novels/{novel}/
+ * - Syncs assets to site/public/assets/{novel}/
  */
 
-import { readdir, readFile, writeFile, mkdir } from 'fs/promises';
+import { readdir, readFile, writeFile, mkdir, copyFile } from 'fs/promises';
 import { join, basename } from 'path';
 import { existsSync } from 'fs';
 
 const PROJECTS_DIR = './projects';
 const CONTENT_DIR = './site/src/content/novels';
+const PUBLIC_ASSETS_DIR = './site/public/assets';
 
 // Chapter order mapping based on file naming convention
 function getChapterOrder(filename) {
@@ -85,9 +90,60 @@ async function syncNovel(novelName) {
     console.log(`  ✓ ${file}`);
   }
 
-  console.log(`\nDone! ${mdFiles.length} chapters synced.`);
+  console.log(`Done! ${mdFiles.length} chapters synced.`);
+}
+
+/**
+ * Sync assets from project _assets to public folder
+ */
+async function syncAssets(novelName) {
+  const assetsDir = join(PROJECTS_DIR, novelName, '_assets');
+  const publicDir = join(PUBLIC_ASSETS_DIR, novelName);
+
+  if (!existsSync(assetsDir)) {
+    console.log(`\nNo _assets directory for ${novelName}, skipping assets sync.`);
+    return;
+  }
+
+  // Ensure public assets directory exists
+  await mkdir(publicDir, { recursive: true });
+
+  // Supported image extensions
+  const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+
+  async function copyDir(src, dest) {
+    await mkdir(dest, { recursive: true });
+    const entries = await readdir(src, { withFileTypes: true });
+
+    let count = 0;
+    for (const entry of entries) {
+      const srcPath = join(src, entry.name);
+      const destPath = join(dest, entry.name);
+
+      if (entry.isDirectory()) {
+        count += await copyDir(srcPath, destPath);
+      } else if (imageExts.some(ext => entry.name.toLowerCase().endsWith(ext))) {
+        await copyFile(srcPath, destPath);
+        console.log(`  ✓ ${entry.name}`);
+        count++;
+      }
+    }
+    return count;
+  }
+
+  console.log(`\nSyncing assets for ${novelName}...`);
+  const assetCount = await copyDir(assetsDir, publicDir);
+  console.log(`Done! ${assetCount} assets synced.`);
 }
 
 // Main
-const novelName = process.argv[2] || '2028ww3';
-syncNovel(novelName).catch(console.error);
+async function main() {
+  const novelName = process.argv[2] || '2028ww3';
+
+  await syncNovel(novelName);
+  await syncAssets(novelName);
+
+  console.log('\nAll done!');
+}
+
+main().catch(console.error);
