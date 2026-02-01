@@ -1,0 +1,40 @@
+# Agent Configuration for Novel Publishing Platform
+# Compatible with antigravity and similar AI agent tools
+
+name: "novel-platform"
+version: "1.0.0"
+description: "Multi-novel publishing platform with creative workspace"
+
+# Entry points for agents
+entry_points:
+  - CLAUDE.md
+  - projects/*/\_CONTEXT.md
+
+# Project discovery
+projects:
+  base_path: "projects/"
+  context_file: "_CONTEXT.md"
+
+# File patterns
+patterns:
+  chapters: "projects/*/chapters/*.md"
+  metadata: "projects/*/_meta/*.md"
+  world: "projects/*/_world/*.md"
+  characters: "projects/*/_characters/*.md"
+
+# Agent behavior
+behavior:
+  # Always read _CONTEXT.md before modifying a project
+  pre_read:
+    - "_CONTEXT.md"
+    - "_meta/agent_guidelines.md"
+
+  # Update these after changes
+  post_update:
+    - "_meta/chapter_order.md"
+
+# Publishing
+site:
+  framework: "astro"
+  content_source: "projects/"
+  output: "dist"

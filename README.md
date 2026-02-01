@@ -1,19 +1,68 @@
-# 2028 WW3 專案
+# Novel Publishing Platform
 
-## 總覽
+Multi-novel creative workspace with static site publishing via GitHub + Cloudflare Pages.
 
-本文件庫包含小說 **2028 WW3** 的創作內容。
-環境架構經過特別設計，支援以 LLM Agent 進行「Vibe Coding」，確保在世界觀建構、角色發展與故事撰寫過程中，能維持語境的一致性。
+## Features
 
-## 結構說明
+- **Creative Workspace**: Structured environment for novel writing with AI agent support
+- **Multi-Project**: Support for multiple novel projects in one repository
+- **Static Publishing**: Astro-based website deployed to Cloudflare Pages
+- **Agent-Friendly**: Designed for LLM agents (Claude, antigravity, etc.)
 
-- **00_Management/**：創作計畫、大綱與進度追蹤。
-- **01_World/**：世界觀聖經——包含設定規則、地理環境、歷史背景。
-- **02_Characters/**：角色設定集與關係圖。
-- **03_Story/**：章節草稿與場景。
-- **04_Context/**：Agent 語境文件、風格指南與 Prompt。
-- **05_Archives/**：舊版草稿與版本紀錄。
+## Directory Structure
 
-## Agent 使用說明
+```
+/
+├── projects/              # Novel projects
+│   └── 2028ww3/          # 2028 第三次世界大戰
+│       ├── _CONTEXT.md   # Quick reference (agents read this first)
+│       ├── _meta/        # Project management
+│       ├── _world/       # World-building
+│       ├── _characters/  # Character profiles
+│       ├── chapters/     # Story content
+│       └── _archives/    # Old versions
+│
+├── site/                  # Astro website (publishing)
+├── scripts/               # Build utilities
+├── .agent/                # Agent configuration (antigravity)
+├── CLAUDE.md              # Agent entry point
+└── README.md              # This file
+```
 
-在此專案工作中，請務必參考 `00_Management/creative_plan.md` 以掌握核心願景，並遵循 `04_Context/agent_guidelines.md` 中的風格指導。
+## Projects
+
+| Project | Title | Status | Chapters |
+|---------|-------|--------|----------|
+| `2028ww3` | 2028 第三次世界大戰 | Active | 27+ |
+
+## For AI Agents
+
+1. Read `CLAUDE.md` for platform overview
+2. Navigate to `projects/{name}/`
+3. Read `_CONTEXT.md` for project-specific rules
+4. Work in `chapters/` directory
+
+## For Humans
+
+### View a Project
+
+```bash
+cd projects/2028ww3
+cat _CONTEXT.md
+```
+
+### Build Website (Coming Soon)
+
+```bash
+cd site
+npm install
+npm run build
+```
+
+### Deploy
+
+Automatic deployment via Cloudflare Pages when pushing to main branch.
+
+## License
+
+All rights reserved. Content is for personal use only.
