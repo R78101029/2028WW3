@@ -1,72 +1,148 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Novel data (can be moved to a data file later)
+// Novel data
 const novels = [
   {
     slug: '2028ww3',
     title: '2028 第三次世界大戰',
-    description: '當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。這是一部湯姆克蘭西式軍事驚悚小說，描述專業人士在極限壓力下的求生與決斷。',
+    description: '當「寧靜海」量子攻擊癱瘓全球通訊，世界陷入資訊黑暗。沒有 GPS、沒有衛星、沒有網路——專業軍人們必須在極限壓力下，僅憑直覺與經驗做出生死抉擇。',
     status: '連載中',
     chapters: 35,
-    tags: ['軍事', '驚悚', '科幻'],
+    words: '120,000+',
+    tags: ['軍事驚悚', '科幻', '戰爭'],
+  },
+];
+
+const features = [
+  {
+    icon: '🎯',
+    title: '硬派寫實風格',
+    description: '湯姆克蘭西式軍事驚悚，注重戰術細節與裝備考據',
+  },
+  {
+    icon: '🌏',
+    title: '多線敘事',
+    description: '橫跨亞洲、歐洲、中東的全球視角，多角色交織的史詩故事',
+  },
+  {
+    icon: '🔇',
+    title: '技術致盲設定',
+    description: '獨特的「寧靜海」設定，回歸二戰式的資訊迷霧戰場',
   },
 ];
 ---
 
-<BaseLayout title="Novel Platform - 小說發布平台">
+<BaseLayout title="小說平台 - 原創軍事驚悚小說">
   <div class="container">
+    <!-- Hero Section -->
     <section class="hero">
-      <h1>小說平台</h1>
-      <p class="subtitle">原創小說發布空間</p>
+      <h1>探索戰爭的另一面</h1>
+      <p class="subtitle">
+        這裡沒有無敵英雄，只有在極限壓力下掙扎求生的普通人。<br/>
+        原創軍事驚悚小說，帶你深入現代戰爭的資訊迷霧。
+      </p>
+      <a href="/novel/2028ww3" class="cta-button">開始閱讀</a>
     </section>
 
-    <section class="novel-grid">
-      {novels.map((novel) => (
-        <a href={`/novel/${novel.slug}`} class="novel-card">
-          <h2>{novel.title}</h2>
-          <p class="meta">
-            <span class="status">{novel.status}</span>
-            <span class="chapters">{novel.chapters} 章</span>
-          </p>
-          <p class="description">{novel.description}</p>
-          <div class="tags">
-            {novel.tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))}
-          </div>
-        </a>
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">35+</div>
+        <div class="stat-label">章節</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">120K+</div>
+        <div class="stat-label">字數</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">4</div>
+        <div class="stat-label">戰區</div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      {features.map((feature) => (
+        <div class="feature-card">
+          <div class="icon">{feature.icon}</div>
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
+        </div>
       ))}
+    </section>
+
+    <!-- Novel Section -->
+    <section class="novels-section">
+      <div class="section-header">
+        <h2>連載作品</h2>
+        <p>點擊卡片開始閱讀</p>
+      </div>
+
+      <div class="novel-grid">
+        {novels.map((novel) => (
+          <a href={`/novel/${novel.slug}`} class="novel-card">
+            <h2>{novel.title}</h2>
+            <div class="meta">
+              <span class="status">{novel.status}</span>
+              <span class="chapters-count">{novel.chapters} 章 · {novel.words} 字</span>
+            </div>
+            <p class="description">{novel.description}</p>
+            <div class="tags">
+              {novel.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+      <div class="section-header">
+        <h2>關於本作</h2>
+      </div>
+      <div class="about-content">
+        <p>
+          《2028 第三次世界大戰》是一部以近未來為背景的軍事驚悚小說。故事始於一場前所未見的量子攻擊——代號「寧靜海」——癱瘓了全球的衛星通訊系統。
+        </p>
+        <p>
+          在沒有 GPS、沒有即時情報、通訊時斷時續的世界裡，現代軍隊被迫回到二戰時期的作戰方式。飛行員無法進行超視距攻擊，指揮官無法掌握全局戰況，每個人都在資訊的迷霧中摸索前進。
+        </p>
+        <p>
+          本作採用多視角敘事，從台灣海峽的雷達官、歐洲戰場的德國士兵、到中東的情報特工，呈現戰爭的不同面向。這裡沒有超級英雄，只有在極限壓力下做出艱難抉擇的普通人。
+        </p>
+      </div>
     </section>
   </div>
 </BaseLayout>
 
 <style>
-  .hero {
-    text-align: center;
-    padding: 4rem 0;
+  .novels-section {
+    margin-top: 4rem;
   }
 
-  .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  .about-section {
+    margin-top: 4rem;
+    padding: 3rem;
+    background: var(--color-bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
   }
 
-  .subtitle {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
+  .about-content {
+    max-width: 680px;
+    margin: 0 auto;
   }
 
-  .status {
-    background: var(--color-accent);
-    color: #fff;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    margin-right: 0.5rem;
+  .about-content p {
+    color: var(--color-text);
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
   }
 
-  .chapters {
-    color: var(--color-text-muted);
+  .about-content p:last-child {
+    margin-bottom: 0;
   }
 </style>
