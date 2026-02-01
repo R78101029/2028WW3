@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = '小說發布平台' } = Astro.props;
+const { title, description = '原創小說發布平台' } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -15,16 +15,21 @@ const { title, description = '小說發布平台' } = Astro.props;
   <meta name="description" content={description} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
   <title>{title}</title>
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <a href="/" class="site-title">Novel Platform</a>
+      <a href="/" class="site-logo">
+        <div class="site-logo-icon">N</div>
+        <span class="site-title">Novels<span>365</span></span>
+      </a>
       <nav class="site-nav">
         <a href="/">首頁</a>
         <a href="/about">關於</a>
+        <a href="https://blog.cqi365.net" target="_blank">部落格</a>
+        <a href="/novel/2028ww3" class="nav-cta">開始閱讀</a>
       </nav>
     </div>
   </header>
@@ -35,7 +40,7 @@ const { title, description = '小說發布平台' } = Astro.props;
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; 2026 Novel Platform. All rights reserved.</p>
+      <p>&copy; 2026 Novels365. All rights reserved.</p>
     </div>
   </footer>
 </body>
