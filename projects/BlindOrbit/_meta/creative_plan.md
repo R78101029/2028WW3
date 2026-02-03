@@ -24,15 +24,15 @@
 | # | 章節名 | 視角 | 狀態 | 檔案名 |
 |---|---|---|---|---|
 | 0 | **Prologue: 導火線** | 多視角 | ✅ 已完成 | Chap_00_Prologue_The_Tinderbox.md |
-| 1 | **第一章：棋盤** | 蘇菲·洛朗 | ✅ 已完成 | Chap_01_Europe_The_Chessboard.md |
-| 2 | **[Interlude I] 從天而降的寂靜** | 太空/戰略 | ✅ 已完成 | Chap_02_Interlude_I_Silence_From_Above.md |
+| 1 | **第一章：棋盤** | 蘇菲·洛朗 | ✅ 已完成 (附插圖) | Chap_01_Europe_The_Chessboard.md |
+| 2 | **第二章：從天而降的寂靜** | 潔西卡 | ✅ 已完成 (附插圖) | Chap_02_Interlude_I_Silence_From_Above.md |
 | 3 | **第三章：致盲 (The Blinding)** | 林子修 (TW) | ✅ 已完成 (附插圖) | Chap_03_Asia_The_Blinding.md |
-| 4 | **第四章：蟻穴 (The Ant Colony)** | 陳家豪 | ✅ 已完成 | Chap_04_Asia_The_Ant_Colony.md |
-| 5 | **第五章：二十年 (Twenty Years)** | 張弘毅 | ✅ 已完成 | Chap_05_Asia_Twenty_Years.md |
-| 6 | **第六章：蘇瓦烏基的騙局 (Deception)** | 伊萊亞斯 | ✅ 已完成 | Chap_06_Europe_The_Suwałki_Deception.md |
-| 7 | **第七章：五角大廈的真空 (Vacuum)** | 阿德勒將軍 | ✅ 已完成 | Chap_07_Interlude_Pentagon_Vacuum.md |
-| 8 | **第八章：浪潮 (The Wave)** | 林雅婷 | ✅ 已完成 | Chap_08_Asia_The_Wave.md |
-| 9 | **第九章：東京的選擇 (Choice)** | 橋本首相 | ✅ 已完成 | Chap_09_Asia_Tokyo_Choice.md |
+| 4 | **第四章：蟻穴 (The Ant Colony)** | 陳家豪 | ✅ 已完成 (附插圖) | Chap_04_Asia_The_Ant_Colony.md |
+| 5 | **第五章：二十年 (Twenty Years)** | 張弘毅 | ✅ 已完成 (附插圖) | Chap_05_Asia_Twenty_Years.md |
+| 6 | **第六章：蘇瓦烏基的騙局 (Deception)** | 伊萊亞斯 | ✅ 已完成 (附插圖) | Chap_06_Europe_The_Suwałki_Deception.md |
+| 7 | **第七章：五角大廈的真空 (Vacuum)** | 阿德勒將軍 | ✅ 已完成 (附插圖) | Chap_07_Interlude_Pentagon_Vacuum.md |
+| 8 | **第八章：浪潮 (The Wave)** | 林雅婷 | ✅ 已完成 (附插圖) | Chap_08_Asia_The_Wave.md |
+| 9 | **第九章：東京的選擇 (Choice)** | 橋本首相 | ✅ 已完成 (附插圖) | Chap_09_Asia_Tokyo_Choice.md |
 
 ### 第二部：虛空的盾牌 (Part II: The Hollow Shield)
 
@@ -41,12 +41,12 @@
 
 | # | 章節名 | 視角 | 狀態 | 檔案名 |
 |---|---|---|---|---|
-| II | **[Interlude II] 變色龍 (The Chameleon)** | Sophie (EU) | ✅ 已完成 | Chap_10_Interlude_II_The_Chameleon.md |
-| 11 | **第一滴血 (First Blood)** | Reaper/Lin | ✅ 已完成 | Chap_11_Asia_Static_and_Hearts.md |
-| 12 | **最後的列車 (The Last Train)** | Elias/Bear | ✅ 已完成 | Chap_12_Europe_The_Last_Train.md |
-| 13 | **黑霧 (Black Fog)** | Tanaka/Lin | ✅ 已完成 | Chap_13_Asia_Black_Fog.md |
-| 14 | **玻璃迷宮 (Glass Maze)** | Kane | ✅ 已完成 | Chap_14_MiddleEast_Glass_Maze.md |
-| 15 | **沈默的艦隊 (Silent Fleet)** | USN/JMSDF | ✅ 已完成 | Chap_15_Global_Silent_Fleet.md |
+| 10 | **第十章：包裹 (The Package)** | 凱恩 | ✅ 已完成 (附插圖) | Chap_10_MiddleEast_The_Package.md |
+| 11 | **第十一章：內爆 (Implosion)** | 林雅婷 | ✅ 已完成 (附插圖) | Chap_11_Asia_Implosion.md |
+| 12 | **第十二章：變色龍 (The Chameleon)** | Sophie | ✅ 已完成 (附插圖) | Chap_12_Interlude_II_The_Chameleon.md |
+| 13 | **第十三章：孤島日記 (Island Diary)** | 林雅婷 | ✅ 已完成 (附插圖) | Chap_13_Asia_Island_Diary.md |
+| 14 | **第十四章：第一滴血 (First Blood)** | Reaper/Lin | ✅ 已完成 (附插圖) | Chap_14_Asia_First_Blood.md |
+| 15 | **第十五章：最後的列車 (The Last Train)** | Elias | ✅ 已完成 (附插圖) | Chap_15_Europe_The_Last_Train.md |
 
 ### 第三部：漫長的黑夜 (Part III: The Long Dark)
 
@@ -55,14 +55,20 @@
 
 | # | 章節名 | 視角 | 狀態 | 檔案名 |
 |---|---|---|---|---|
-| III | **[Interlude III] 龍的眼睛 (Dragon's Eye)** | 「老師」 | ✅ 已完成 | Chap_16_Interlude_III_Dragons_Eye.md |
-| 17 | **獵人與獵物 (Hunter Hunted)** | Elias | ✅ 已完成 | Chap_17_Europe_Hunter_Hunted.md |
-| 18 | **孤島頻率 (Island Frequency)** | 林子修 | ✅ 已完成 | Chap_18_Asia_Island_Frequency.md |
-| 19 | **血路 (Blood Trail)** | Kane | ✅ 已完成 | Chap_19_Global_Blood_Trail.md |
-| 20 | **密碼 (The Cipher)** | Kane/Lin | ✅ 已完成 | Chap_20_Global_The_Cipher.md |
-| 21 | **長刀之夜 (Night of Long Knives)** | Elias/林子修 | ✅ 已完成 | Chap_21_Global_Night_of_Long_Knives.md |
-| 22 | **鐵鉗 (The Pincer)** | 多視角 | ✅ 已完成 | Chap_22_Global_The_Pincer.md |
-| 23 | **判決 (The Verdict)** | 多視角 | ✅ 已完成 | Chap_23_Global_The_Verdict.md |
+| 16 | **第十六章：另一邊 (The Other Side)** | 俄軍士兵 | ✅ 已完成 (附插圖) | Chap_16_Europe_The_Other_Side.md |
+| 17 | **第十七章：黑霧 (Black Fog)** | 多視角 | ✅ 已完成 (附插圖) | Chap_17_Asia_Black_Fog.md |
+| 18 | **第十八章：玻璃迷宮 (Glass Maze)** | Kane/Jafar | ✅ 已完成 (附插圖) | Chap_18_MiddleEast_Glass_Maze.md |
+| 19 | **第十九章：沉默的艦隊 (Silent Fleet)** | USN/JMSDF | ✅ 已完成 (附插圖) | Chap_19_Global_Silent_Fleet.md |
+| 20 | **第二十章：龍的眼睛 (Dragon's Eye)** | 「老師」 | ✅ 已完成 (附插圖) | Chap_20_Interlude_III_Dragons_Eye.md |
+| 21 | **第二十一章：老師 (The Teacher)** | 中國指揮官 | ✅ 已完成 (附插圖) | Chap_21_Asia_The_Teacher.md |
+| 22 | **第二十二章：獵人與獵物 (Hunter Hunted)** | Elias | ✅ 已完成 (附插圖) | Chap_22_Europe_Hunter_Hunted.md |
+| 23 | **第二十三章：孤島頻率 (Island Frequency)** | 林子修 | ✅ 已完成 (附插圖) | Chap_23_Asia_Island_Frequency.md |
+| 24 | **第二十四章：心跳 (Heartbeat)** | Sarah Jenkins| ✅ 已完成 (附插圖) | Chap_24_Global_Pine_Gap_Heartbeat.md |
+| 25 | **第二十五章：血路 (Blood Trail)** | Kane | ✅ 已完成 (附插圖) | Chap_25_Global_Blood_Trail.md |
+| 26 | **第二十六章：密碼 (The Cipher)** | 多視角 | ✅ 已完成 (附插圖) | Chap_26_Global_The_Cipher.md |
+| 27 | **第二十七章：長刀之夜 (Night of Long Knives)** | 多視角 | ✅ 已完成 (附插圖) | Chap_27_Global_Night_of_Long_Knives.md |
+| 28 | **第二十八章：鐵鉗 (The Pincer)** | 多視角 | ✅ 已完成 (附插圖) | Chap_28_Global_The_Pincer.md |
+| 29 | **第二十九章：牽制 (The Distraction)** | 辛格將軍 | ✅ 已完成 (附插圖) | Chap_29_Asia_The_Distraction.md |
 
 ### 第四部：鋼鐵的黎明 (Part IV: Dawn of Iron)
 
@@ -71,9 +77,11 @@
 
 | # | 章節名 | 視角 | 狀態 | 檔案名 |
 |---|---|---|---|---|
-| 24 | **焦土 (Scorched Earth)** | 林子修 | ✅ 已完成 | Chap_24_Asia_Scorched_Earth.md |
-| 25 | **鏈結重啟 (Link Restored)** | Kane/Tech | ✅ 已完成 | Chap_25_Global_Link_Restored.md |
-| 26 | **美麗新世界 (Brave New World)** | Epilogue | ✅ 已完成 | Chap_26_Global_Brave_New_World.md |
+| 30 | **第三十章：焦土 (Scorched Earth)** | 林子修 | ✅ 已完成 (附插圖) | Chap_30_Asia_Scorched_Earth.md |
+| 31 | **第三十一章：鏈結重啟 (Link Restored)** | Kane/Tech | ✅ 已完成 (附插圖) | Chap_31_Global_Link_Restored.md |
+| 32 | **第三十二章：見證者 (The Witness)** | 潔西卡 | ✅ 已完成 (附插圖) | Chap_32_Global_The_Witness.md |
+| 33 | **第三十三章：判決 (The Verdict)** | 多視角 | ✅ 已完成 (附插圖) | Chap_33_Global_The_Verdict.md |
+| 34 | **第三十四章：美麗新世界 (Brave New World)** | Epilogue | ✅ 已完成 (附插圖) | Chap_34_Global_Brave_New_World.md |
 
 ---
 
