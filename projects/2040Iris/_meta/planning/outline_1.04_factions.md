@@ -34,7 +34,7 @@
 **[Keynote Speech, 09:00-09:45]**
 
 ### 人物補充:Marcus Chen
-- 39歲,Anthropic AI Safety主管
+- 42歲,Anthropic AI Safety主管
 - 史丹佛CS PhD,研究AI對齊問題
 - 個性:理性、嚴謹、帶著父權式的關懷
 - 核心信念:「人類需要被長期利益引導,即使違反短期意願」
@@ -77,7 +77,7 @@
 **[Panel Discussion, 14:00-15:30]**
 
 ### 人物補充:K (Kai Nakamura)
-- 34歲,OpenAI政策與倫理主任
+- 37歲,OpenAI政策與倫理主任
 - 哲學背景,Tokyo + MIT
 - 個性:銳利、辯才無礙、堅持procedure over outcome
 - 核心信念:「工具沒有善惡,使用者才有」
